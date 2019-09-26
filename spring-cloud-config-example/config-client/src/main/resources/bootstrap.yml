@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: config-client
+  cloud:
+    config:
+      uri: http://localhost:8085  # 本地配置中心地址
+      label: master
+      profile: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include:refresh

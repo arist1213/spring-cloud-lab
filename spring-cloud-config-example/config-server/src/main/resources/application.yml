@@ -1,0 +1,33 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: remote
+---
+# 本地git仓库配置
+spring:
+  application:
+    name: config-server
+  profiles: local
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${user.home}/config-repo
+
+---
+# 远程git仓库配置
+spring:
+  application:
+    name: config-server
+  profiles: remote
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/arist1213/config-repo.git
+          search-paths: 
+          username:
+          password:

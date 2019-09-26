@@ -1,0 +1,71 @@
+#!/bin/bash
+
+function build()
+{
+    #mvn package -DskipTests > /dev/null 2>&1
+    mvn clean package -DskipTests
+}
+
+function get_pid()
+{
+    port=$1
+    pid=$(lsof -i tcp:$port|grep 'LISTEN'|awk '{print $2}');
+    if [ -n $pid ];then
+        echo $pid
+    else
+        echo 0
+    fi
+}
+
+function start()
+{    
+    proj=$1
+    port=$2
+    echo "run app $proj"
+    cd $cur
+    chmod +x $proj/target/$proj-0.0.1-SNAPSHOT.jar
+    #nohup java -Xmx200m -jar $proj/target/$proj-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+    if [ -z "$port" ];then
+        java -Xmx200m -jar $proj/target/$proj-0.0.1-SNAPSHOT.jar
+    else
+        java -Xmx200m -jar $proj/target/$proj-0.0.1-SNAPSHOT.jar --server.port=$port
+    fi
+}
+
+function stop() 
+{
+    proj=$1
+    port=$2    
+    pid=$(get_pid $port)
+    pid=${pid:-0}
+    if [ $pid -gt 0 ];then
+        echo "stop app $proj at port $port for pid $pid"
+        kill $pid
+    else
+        echo "app $proj is not running"
+    fi
+}
+
+cur=$(pwd)
+name=`basename $0 .sh`
+app=$2
+port=$3
+
+case $1 in
+    start)
+        build
+        start $app $port
+    ;;
+    stop)
+        stop $app $port
+    ;;
+    restart)
+        stop $app $port
+        start $app $port
+    ;;    
+    *)
+        echo "Usage: $name [start|stop|restart]"
+    ;;
+esac
+exit 0
+
