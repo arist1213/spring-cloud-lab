@@ -4,7 +4,8 @@ spring:
   application:
     name: config-server
   profiles:
-    active: remote
+    active: ${profiles.active:local}
+    
 ---
 # 本地git仓库配置
 spring:

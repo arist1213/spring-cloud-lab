@@ -30,7 +30,7 @@ function start()
         options="--server.port=${port}"
     fi
     if [ ! -z $profile ];then
-        options="${options} -Dspring.profiles.active=${profile}"
+        options="${options} --spring.profiles.active=${profile}"
     fi
     echo "options: ${options}"
     #nohup java -Xmx200m -jar $proj/target/$proj-0.0.1-SNAPSHOT.jar $options > /dev/null 2>&1 &

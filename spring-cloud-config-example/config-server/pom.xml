@@ -34,4 +34,25 @@
 		</plugins>
 	</build>
 
+	<!--配置环境的profile-->
+	<profiles>		
+		<profile>
+			<id>local</id>
+			<properties>
+				<environment>local</environment>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>remote</id>
+			<properties>
+				<environment>remote</environment>
+			</properties>
+		</profile>
+	</profiles>
+
+
+
 </project>

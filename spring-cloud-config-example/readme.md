@@ -2,8 +2,8 @@
 
 本项目主要演示`spring-cloud-config`使用git作为配置管理机制的实现demo
 
-`config-server` 配置中心，分发配置
-`config-client` 配置中心客户端，获取配置
+1. `config-server` 配置中心，分发配置
+2. `config-client` 配置中心客户端，获取配置
 
 ## Getting Started
 
@@ -29,8 +29,9 @@ git commit -m "Add application.properties"
 
 ### Installing
 
-1.编译项目 `mvn clean package`
-2.启动`config-server`, `java -Xmx200m -jar config-server/target/config-server-0.0.1-SNAPSHOT.jar`
+1. 编译项目 `mvn clean package`
+2. 启动`config-server`, `java -Xmx200m -jar config-server/target/config-server-0.0.1-SNAPSHOT.jar --spring.profiles.active=local`
+3. 启动`config-client`, `java -Dspring.profiles.active=dev -Xmx200m -jar config-client/target/config-client-0.0.1-SNAPSHOT.jar`
 
 ```shell
 / {application} / {profile} [ / {label} ]
@@ -40,9 +41,7 @@ git commit -m "Add application.properties"
 / {label} / {application} - {profile} . properties
 ```
 
-访问 `curl localhost:8085/{application}/{profile}[/{label}]` 获取配置
-
-3.启动`config-client`, `java -Dspring.profiles.active=dev -Xmx200m -jar config-client/target/config-client-0.0.1-SNAPSHOT.jar`
+访问 `curl localhost:8085/config-client/dev` 获取配置
 
 ## Running the tests
 
@@ -58,4 +57,7 @@ user.role=guest
 继续访问 `curl localhost:8080/hello`, 返回 `your role is guest`
 
 
-远程git仓库修改同理
+*远程git仓库修改同理*
+
+
+> 使用脚本启动 `./run start config-server 8085 local` (macos系统专用)
